@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --account=meereis.meereis
+#SBATCH --job-name=geo_projection_l4
+
+#SBATCH --array=1-5000%20
+
+
+#SBATCH -c 1
+#SBATCH --mem=8G
+#SBATCH --time=00:30:00 
+
+#SBATCH --output=slurm_logs/slurm-%A_%a.out
+#SBATCH --error=slurm_logs/slurm-%A_%a.err
+
+module load conda
+conda activate panomax_mosaic_env
+
+CURRENT_IMAGE=$(sed -n "${SLURM_ARRAY_TASK_ID}p" l4_complete.txt)
+
+if [ -z "$CURRENT_IMAGE" ]; then
+    echo "No image for Task ID $SLURM_ARRAY_TASK_ID."
+    exit 1
+fi
+
+echo "Start Job $SLURM_ARRAY_TASK_ID with file: $CURRENT_IMAGE"
+
+python georeference_one_position.py "$CURRENT_IMAGE"
