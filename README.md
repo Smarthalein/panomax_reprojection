@@ -38,3 +38,5 @@ The following lines ensure that the hydrins file is loaded and initialise parame
 
 At the bottom of `panorama_mapping.py` the `pfadfinder` needs to be adjusted to the desired output file path.
 
+
+The hydrins data can not be put on gitlab, but it is available upon request.
